@@ -1,5 +1,6 @@
 import { Product } from '@/types';
-import axios from 'axios';
+
+import qs from 'query-string';
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
@@ -11,7 +12,17 @@ type Query = {
 };
 
 export default async function getProducts(query: Query): Promise<Product[]> {
-  const res = await axios.get(URL);
+  const url = qs.stringifyUrl({
+    url: URL,
+    query: {
+      colorId: query.colorId,
+      sizeId: query.sizeId,
+      categoryId: query.categoryId,
+      isFeatured: query.isFeatured,
+    },
+  });
 
-  return res.data;
+  const res = await fetch(url);
+
+  return res.json();
 }
