@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Image as ImageType } from '@/types';
 import { Tab } from '@headlessui/react';
 import Image from 'next/image';
@@ -19,6 +20,12 @@ export default function GallaryTab({ image }: GallaryTabProps) {
               className="object-cover object-center"
             />
           </span>
+          <span
+            className={cn(
+              'absolute inset-0 rounded-md ring-2 ring-offset-2',
+              selected ? 'ring-black' : 'ring-transparent',
+            )}
+          ></span>
         </div>
       )}
     </Tab>

@@ -2,8 +2,8 @@
 
 import { Image as ImageType } from '@/types';
 import { Tab } from '@headlessui/react';
-import Image from 'next/image';
 import GallaryTab from './gallery-tab';
+import Image from 'next/image';
 
 type GalleryProps = {
   images: ImageType[];
@@ -19,6 +19,20 @@ export default function Gallery({ images }: GalleryProps) {
           ))}
         </Tab.List>
       </div>
+      <Tab.Panels className="aspect-square w-full">
+        {images.map((image) => (
+          <Tab.Panel key={image.id}>
+            <div className="aspect-square relative h-full w-full sm:rounded-lg overflow-hidden">
+              <Image
+                fill
+                src={image.url}
+                alt="image"
+                className="object-cover object-center"
+              />
+            </div>
+          </Tab.Panel>
+        ))}
+      </Tab.Panels>
     </Tab.Group>
   );
 }

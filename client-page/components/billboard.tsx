@@ -18,7 +18,3 @@ export default function Billboard({ data }: BillboardProps) {
     </div>
   );
 }
-
-{
-  /* <div className="h-full w-full flex flex-col justify-center items-center text-center gap-8"> */
-}

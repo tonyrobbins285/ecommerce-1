@@ -1,6 +1,7 @@
 import getProduct from '@/actions/get-product';
 import getProducts from '@/actions/get-products';
 import Gallery from '@/components/gallery';
+import Info from '@/components/info';
 import ProductList from '@/components/product-list';
 import Container from '@/components/ui/container';
 
@@ -16,7 +17,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const suggestedProduct = await getProducts({
     categoryId: product?.category?.id,
   });
-  console.log(product.images);
+
   return (
     <div className="bg-white">
       <Container>
@@ -24,8 +25,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
             <Gallery images={product.images} />
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-              {/* Info */}
-              <p>Info</p>
+              <Info data={product} />
             </div>
           </div>
           <hr className="my-10" />
