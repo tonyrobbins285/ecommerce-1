@@ -13,6 +13,7 @@ export async function GET(
 
     const category = await prisma.category.findUnique({
       where: { id: params.categoryId },
+      include: { billboard: true },
     });
 
     return NextResponse.json(category);
