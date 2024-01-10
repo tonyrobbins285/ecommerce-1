@@ -2,8 +2,9 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Color, Size } from '@/types';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import qs from 'query-string';
+import { useState } from 'react';
 
 type FilterProps = {
   valueKey: string;
@@ -13,13 +14,14 @@ type FilterProps = {
 
 export default function Filter({ valueKey, name, data }: FilterProps) {
   const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const selectedValue = searchParams.get(valueKey);
-
+  const [currentValue, setCurrentValue] = useState<string | null>(
+    searchParams.get(valueKey),
+  );
+  const [currentSearchParams, setCurrentSearchParams] = useState<string | null>(
+    searchParams.toString(),
+  );
   const onClick = (id: string) => {
-    const current = qs.parse(searchParams.toString());
-
+    const current = qs.parse(currentSearchParams as string);
     const query = {
       ...current,
       [valueKey]: id,
@@ -27,6 +29,9 @@ export default function Filter({ valueKey, name, data }: FilterProps) {
 
     if (current[valueKey] === id) {
       query[valueKey] = null;
+      setCurrentValue(null);
+    } else {
+      setCurrentValue(id);
     }
 
     const url = qs.stringifyUrl(
@@ -34,7 +39,8 @@ export default function Filter({ valueKey, name, data }: FilterProps) {
       { skipNull: true },
     );
 
-    router.push(url);
+    setCurrentSearchParams(qs.stringify(query));
+    window.history.replaceState('', '', url);
   };
 
   return (
@@ -47,7 +53,7 @@ export default function Filter({ valueKey, name, data }: FilterProps) {
             <Button
               className={cn(
                 'rounded-md text-sm text-gray-800 p-2 bg-white border border-gray-300',
-                selectedValue === el.id && 'bg-black text-white',
+                currentValue === el.id && 'bg-black text-white',
               )}
               onClick={() => onClick(el.id)}
             >
