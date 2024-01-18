@@ -24,7 +24,7 @@ const storeSchema = z.object({
   name: z.string().min(4),
 });
 
-export default function StoreModal() {
+export default function CreateStoreModal() {
   const { isOpen, onClose } = useModalStore();
 
   const [isLoading, setIsLoading] = useState(false);

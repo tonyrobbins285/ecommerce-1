@@ -1,6 +1,5 @@
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-
 import { prisma } from '@/lib/prismadb';
 
 export default async function SetupLayout({

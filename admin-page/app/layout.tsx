@@ -1,10 +1,11 @@
-import { ClerkProvider } from '@clerk/nextjs';
+import '@/app/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import '@/app/globals.css';
+import { ClerkProvider } from '@clerk/nextjs';
 
-import ToasterProvider from '@/providers/toaster-provider';
-import { StoreModalProvider } from '@/providers/store-modal-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
+import { Toaster } from 'react-hot-toast';
+import CreateStoreModal from '@/components/modals/create-store-modal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,9 +23,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <ToasterProvider />
-          <StoreModalProvider />
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <Toaster position="top-center" reverseOrder={false} />
+            <CreateStoreModal />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

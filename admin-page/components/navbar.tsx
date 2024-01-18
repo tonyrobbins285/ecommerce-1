@@ -3,6 +3,7 @@ import React from 'react';
 import MainNav from '@/components/main-nav';
 import { StoreSwitcher } from './store-switcher';
 import { prisma } from '@/lib/prismadb';
+import { ThemeToggle } from './theme-toggle';
 
 export async function Navbar() {
   const { userId } = auth();
@@ -13,10 +14,11 @@ export async function Navbar() {
 
   return (
     <div className="border-b">
-      <div className="h-16 px-4 flex items-center">
+      <div className="flex h-16 items-center px-4">
         <StoreSwitcher stores={stores} />
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center gap-4">
+          <ThemeToggle />
           <UserButton afterSignOutUrl="/sign-in" />
         </div>
       </div>
