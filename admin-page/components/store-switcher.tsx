@@ -1,8 +1,8 @@
 'use client';
 import { Store } from '@prisma/client';
-import { HTMLAttributes, useState } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useModalStore } from '@/hooks/use-modal-store';
+import { useCreateStoreModalStore } from '@/store/zustand';
 
 import {
   Check,
@@ -28,25 +28,18 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-type StoreSwitcherProps = HTMLAttributes<HTMLElement> & {
+type StoreSwitcherProps = {
   stores: Store[];
 };
 
-export function StoreSwitcher({ className, stores = [] }: StoreSwitcherProps) {
+export function StoreSwitcher({ stores }: StoreSwitcherProps) {
   const [open, setOpen] = useState(false);
 
-  const { onOpen } = useModalStore();
+  const { onOpen } = useCreateStoreModalStore();
   const params = useParams();
   const router = useRouter();
 
-  const formattedStores = stores.map((store) => ({
-    label: store.name,
-    value: store.id,
-  }));
-
-  const currentStore = formattedStores.find(
-    (store) => store.value === params.storeId,
-  );
+  const currentStore = stores.find((store) => store.id === params.storeId);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,41 +49,39 @@ export function StoreSwitcher({ className, stores = [] }: StoreSwitcherProps) {
           size="sm"
           role="combobox"
           aria-expanded={open}
-          aria-label="Select a Store"
-          className={cn('w-[200px] justify-between', className)}
+          className="w-[200px] justify-between bg-white dark:bg-slate-900"
         >
           <div className="flex items-center gap-2">
             <StoreIcon className="mr-2 h-4 w-4" />
-            {currentStore?.label}
+            {currentStore?.name}
           </div>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder={currentStore?.label} />
+        <Command className="bg-white dark:bg-slate-900">
+          <CommandInput placeholder="Search store" />
           <CommandList>
             <CommandEmpty>No store found.</CommandEmpty>
             <CommandGroup heading="Stores">
-              {formattedStores.map((store) => (
+              {stores.map((store) => (
                 <CommandItem
-                  key={store.value}
+                  key={store.id}
                   onSelect={() => {
-                    console.log(store);
                     setOpen(false);
-                    router.push(`/${store.value}`);
+                    router.push(`/${store.id}`);
                   }}
                   className="cursor-pointer"
                 >
+                  {store.name}
                   <Check
                     className={cn(
-                      'mr-2 h-4 w-4',
-                      currentStore?.value === store.value
+                      'ml-auto h-4 w-4',
+                      currentStore?.id === store.id
                         ? 'opacity-100'
                         : 'opacity-0',
                     )}
                   />
-                  {store.label}
                 </CommandItem>
               ))}
             </CommandGroup>

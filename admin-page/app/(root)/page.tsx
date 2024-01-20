@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react';
 
-import { useModalStore } from '@/hooks/use-modal-store';
+import { useCreateStoreModalStore } from '@/store/zustand';
 
 export default function SetupPage() {
-  const { isOpen, onOpen } = useModalStore();
+  const { isOpen, onOpen } = useCreateStoreModalStore();
 
   useEffect(() => {
     if (!isOpen) {

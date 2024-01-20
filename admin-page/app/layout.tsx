@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`${inter.className} bg-white dark:bg-slate-900`}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <Toaster position="top-center" reverseOrder={false} />
             <CreateStoreModal />

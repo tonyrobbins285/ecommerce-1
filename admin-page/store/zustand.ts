@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-type StoreState = {
+type CreateStoreStore = {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 };
 
-export const useModalStore = create<StoreState>()((set) => ({
+export const useCreateStoreModalStore = create<CreateStoreStore>()((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),

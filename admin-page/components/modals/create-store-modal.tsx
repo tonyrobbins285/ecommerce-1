@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useModalStore } from '@/hooks/use-modal-store';
+import { useCreateStoreModalStore } from '@/store/zustand';
 
 import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
@@ -25,7 +25,7 @@ const storeSchema = z.object({
 });
 
 export default function CreateStoreModal() {
-  const { isOpen, onClose } = useModalStore();
+  const { isOpen, onClose } = useCreateStoreModalStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
