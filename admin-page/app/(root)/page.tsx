@@ -6,7 +6,6 @@ import { useCreateStoreModalStore } from '@/store/zustand';
 
 export default function SetupPage() {
   const { isOpen, onOpen } = useCreateStoreModalStore();
-
   useEffect(() => {
     if (!isOpen) {
       onOpen();

@@ -66,6 +66,7 @@ export default function CreateStoreModal() {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
+                      className="dark:bg-slate-900"
                       disabled={isLoading}
                       placeholder="E-Commerce"
                       {...field}
@@ -76,10 +77,14 @@ export default function CreateStoreModal() {
               )}
             />
             <div className="flex justify-end space-x-2">
-              <Button disabled={isLoading} variant="outline" onClick={onClose}>
+              <Button disabled={isLoading} variant="ghost" onClick={onClose}>
                 Cancel
               </Button>
-              <Button disabled={isLoading} type="submit">
+              <Button
+                disabled={isLoading}
+                className="bg-slate-700 dark:bg-white"
+                type="submit"
+              >
                 Submit
               </Button>
             </div>

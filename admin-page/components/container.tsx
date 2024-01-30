@@ -5,5 +5,5 @@ type ContainerType = {
 };
 
 export default function Container({ children }: ContainerType) {
-  return <div className="mx-auto max-w-screen-xl px-4">{children}</div>;
+  return <div className="mx-auto max-w-screen-xl px-4 md:px-8">{children}</div>;
 }
