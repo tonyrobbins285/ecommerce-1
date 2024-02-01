@@ -12,6 +12,7 @@ import Container from '@/components/container';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Wrapper from '@/components/ui/wrapper';
 
 type DashboardPageProps = {
   params: {
@@ -26,7 +27,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   return (
     <Container>
-      <div className="space-y-4 pt-6">
+      <Wrapper>
         <Heading title="Dashboard" description="Overview of your store" />
         <Separator />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -77,7 +78,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
             <Overview data={[]} />
           </CardContent>
         </Card>
-      </div>
+      </Wrapper>
     </Container>
   );
 }

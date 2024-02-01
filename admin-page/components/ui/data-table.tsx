@@ -14,7 +14,6 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 import {
   Table,
   TableBody,
@@ -24,17 +23,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+type DataTableProps<T> = {
+  columns: ColumnDef<T>[];
+  data: T[];
   searchKey: string;
 };
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  searchKey,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<T>({ columns, data, searchKey }: DataTableProps<T>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -48,7 +43,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex items-center py-4">
         <Input
           placeholder="Search"
@@ -56,7 +51,7 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn(searchKey)?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm bg-white dark:bg-slate-900"
         />
       </div>
       <div className="rounded-md border">

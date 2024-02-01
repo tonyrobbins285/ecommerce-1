@@ -1,6 +1,15 @@
 'use client';
-
-import { useEffect, useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
@@ -18,16 +27,6 @@ export function AlertModal({
   onConfirm,
   isLoading,
 }: AlertModalProps) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
   return (
     <Modal
       title="Are you sure?"

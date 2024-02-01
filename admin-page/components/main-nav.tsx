@@ -1,23 +1,22 @@
 'use client';
+import React from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import React, { useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
+
 import { getMainNavRoutes } from '@/helpers/get-routes';
 
-import { Button } from '@/components/ui/button';
+import { Check } from 'lucide-react';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { ArrowDown, ArrowUp, Check } from 'lucide-react';
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+import ListItem from './ui/list-item';
 
 export default function Mainnav() {
-  const [open, setOpen] = useState(false);
-
   const pathname = usePathname();
   const params = useParams();
 
@@ -44,44 +43,36 @@ export default function Mainnav() {
         ))}
       </nav>
       <div className="mx-6 hidden sm:block lg:hidden">
-        <DropdownMenu open={open} onOpenChange={setOpen}>
-          <DropdownMenuTrigger className="bg-white dark:bg-slate-900" asChild>
-            <Button variant="outline" className="relative w-56 justify-between">
-              <span>{active?.label}</span>
-              <ArrowDown
-                className={cn(
-                  'absolute right-3 h-4 w-4 text-muted-foreground transition-all',
-                  open && 'rotate-180 opacity-0',
-                )}
-              />
-              <ArrowUp
-                className={cn(
-                  'absolute right-3 h-4 w-4 text-muted-foreground transition-all',
-                  !open && 'rotate-180 opacity-0',
-                )}
-              />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 bg-white dark:bg-slate-900">
-            <DropdownMenuGroup>
-              {routes.map((route) => (
-                <Link key={'dropdown' + route.href} href={route.href}>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <span>{route.label}</span>
-                    <Check
-                      className={cn(
-                        'ml-auto h-4 w-4',
-                        active?.label === route.label
-                          ? 'opacity-100'
-                          : 'opacity-0',
-                      )}
-                    />
-                  </DropdownMenuItem>
-                </Link>
-              ))}
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="w-56 justify-between border bg-transparent">
+                {active?.label}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-56 bg-white py-2 dark:bg-slate-900">
+                  {routes.map((route) => (
+                    <ListItem
+                      className="mx-1 flex items-center p-2 hover:rounded-sm hover:bg-slate-800"
+                      key={route.href}
+                      title={route.label}
+                      href={route.href}
+                    >
+                      <Check
+                        className={cn(
+                          'ml-auto h-4 w-4',
+                          active?.label === route.label
+                            ? 'opacity-100'
+                            : 'opacity-0',
+                        )}
+                      />
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
     </>
   );
