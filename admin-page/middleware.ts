@@ -1,7 +1,15 @@
-import { authMiddleware } from '@clerk/nextjs';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default authMiddleware({ publicRoutes: ['/api/:path*'] });
 
+// This function can be marked `async` if using `await` inside
+export function middleware(request: NextRequest) {
+  const authorization = request.headers.get('authorization') || request.headers.get('Authorization');
+
+  if (!authorization)
+}
+
+// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: '/api/:path*',
 };

@@ -1,7 +1,6 @@
 import '@/app/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ClerkProvider } from '@clerk/nextjs';
 
 import { ThemeProvider } from '@/providers/theme-provider';
 import { Toaster } from 'react-hot-toast';
@@ -21,16 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} bg-white dark:bg-slate-900`}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Toaster position="top-center" reverseOrder={false} />
-            <CreateStoreModal />
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${inter.className} bg-white dark:bg-slate-900`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <Toaster position="top-center" reverseOrder={false} />
+          <CreateStoreModal />
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

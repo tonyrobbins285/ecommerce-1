@@ -11,6 +11,15 @@ datasource db {
   relationMode = "prisma"
 }
 
+model User {
+  id          String   @id @unique @default(uuid())
+  email       String   @unique
+  password    String
+  hashedToken String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Store {
   id String @id @default(uuid())
 
