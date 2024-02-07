@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prismadb';
-import { auth } from '@clerk/nextjs';
+// import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import SettingsForm from './components/settings-form';
@@ -16,19 +16,19 @@ type SettingsPageProps = {
 };
 
 export default async function SettingsPage({ params }: SettingsPageProps) {
-  const { userId } = auth();
-  if (!userId) return null;
+  // const { userId } = auth();
+  // if (!userId) return null;
 
-  const store = await prisma.store.findFirst({
-    where: {
-      id: params.storeId,
-      userId,
-    },
-  });
+  // const store = await prisma.store.findFirst({
+  //   where: {
+  //     id: params.storeId,
+  //     userId,
+  //   },
+  // });
 
-  if (!store) {
-    redirect('/');
-  }
+  // if (!store) {
+  //   redirect('/');
+  // }
 
   return (
     <Container>
@@ -38,7 +38,7 @@ export default async function SettingsPage({ params }: SettingsPageProps) {
           <DeleteBtn section="stores" sectionId="storeId" />
         </div>
         <Separator />
-        <SettingsForm initialData={store} />
+        {/* <SettingsForm initialData={store} /> */}
       </Wrapper>
     </Container>
   );

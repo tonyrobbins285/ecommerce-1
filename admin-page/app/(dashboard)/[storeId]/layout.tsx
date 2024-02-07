@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs';
+// import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import { prisma } from '@/lib/prismadb';
@@ -12,19 +12,19 @@ export default async function DashboardLayout({
   children: React.ReactNode;
   params: { storeId: string };
 }) {
-  const { userId } = auth();
-  if (!userId) return null;
+  // const { userId } = auth();
+  // if (!userId) return null;
 
-  const store = await prisma.store.findFirst({
-    where: {
-      id: params.storeId,
-      userId,
-    },
-  });
+  // const store = await prisma.store.findFirst({
+  //   where: {
+  //     id: params.storeId,
+  //     userId,
+  //   },
+  // });
 
-  if (!store) {
-    redirect('/');
-  }
+  // if (!store) {
+  //   redirect('/');
+  // }
 
   return (
     <>
