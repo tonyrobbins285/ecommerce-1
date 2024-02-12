@@ -1,19 +1,16 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
-
+import { useState } from "react"
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  ColumnFiltersState,
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table"
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -21,17 +18,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-type DataTableProps<T> = {
-  columns: ColumnDef<T>[];
-  data: T[];
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[],
   searchKey: string;
-};
+}
 
-export function DataTable<T>({ columns, data, searchKey }: DataTableProps<T>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  searchKey,
+}: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
   const table = useReactTable({
     data,
     columns,
@@ -39,19 +41,21 @@ export function DataTable<T>({ columns, data, searchKey }: DataTableProps<T>) {
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    state: { columnFilters },
+    state: {
+      columnFilters,
+    }
   });
 
   return (
-    <div className="w-full">
+    <div>
       <div className="flex items-center py-4">
         <Input
           placeholder="Search"
-          value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(searchKey)?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-white dark:bg-slate-900"
+          className="max-w-sm"
         />
       </div>
       <div className="rounded-md border">
@@ -66,10 +70,10 @@ export function DataTable<T>({ columns, data, searchKey }: DataTableProps<T>) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -79,24 +83,18 @@ export function DataTable<T>({ columns, data, searchKey }: DataTableProps<T>) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -123,5 +121,5 @@ export function DataTable<T>({ columns, data, searchKey }: DataTableProps<T>) {
         </Button>
       </div>
     </div>
-  );
+  )
 }

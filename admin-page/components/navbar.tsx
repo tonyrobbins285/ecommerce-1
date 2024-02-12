@@ -1,33 +1,36 @@
-import { prisma } from '@/lib/prismadb';
-import MainNav from '@/components/main-nav';
-// import { UserButton, auth } from '@clerk/nextjs';
+import { UserButton, auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-import { StoreSwitcher } from './store-switcher';
-import { ThemeToggle } from './theme-toggle';
-import Container from './container';
-import { NavDrawer } from './ui/nav-drawer';
+import StoreSwitcher from "@/components/store-switcher";
+import { MainNav } from "@/components/main-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
+import prismadb from "@/lib/prismadb";
 
-export async function Navbar() {
-  // const { userId } = auth();
+const Navbar = async () => {
+  const { userId } = auth();
 
-  // if (!userId) return null;
+  if (!userId) {
+    redirect('/sign-in');
+  }
 
-  // const stores = await prisma.store.findMany({ where: { userId } });
+  const stores = await prismadb.store.findMany({
+    where: {
+      userId,
+    }
+  });
 
-  return (
+  return ( 
     <div className="border-b">
-      <Container>
-        <div className="flex h-16 items-center">
-          {/* <StoreSwitcher stores={stores} /> */}
-          {/* Mobile Menu */}
-          <NavDrawer />
-          <MainNav />
-          <div className="ml-auto hidden items-center gap-4 sm:flex">
-            <ThemeToggle />
-            {/* <UserButton afterSignOutUrl="/sign-in" /> */}
-          </div>
+      <div className="flex h-16 items-center px-4">
+        <StoreSwitcher items={stores} />
+        <MainNav className="mx-6" />
+        <div className="ml-auto flex items-center space-x-4">
+          <ThemeToggle />
+          <UserButton afterSignOutUrl="/" />
         </div>
-      </Container>
+      </div>
     </div>
   );
-}
+};
+ 
+export default Navbar;

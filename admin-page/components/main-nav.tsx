@@ -1,79 +1,77 @@
-'use client';
-import React from 'react';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { useParams, usePathname } from 'next/navigation';
+"use client";
 
-import { getMainNavRoutes } from '@/helpers/get-routes';
+import Link from "next/link"
+import { useParams, usePathname } from "next/navigation";
 
-import { Check } from 'lucide-react';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
-import ListItem from './ui/list-item';
+import { cn } from "@/lib/utils"
 
-export default function Mainnav() {
+export function MainNav({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
 
-  const routes = getMainNavRoutes(params, pathname);
-
-  const active = routes.find((route) => route.active);
+  const routes = [
+    {
+      href: `/${params.storeId}`,
+      label: 'Overview',
+      active: pathname === `/${params.storeId}`,
+    },
+    {
+      href: `/${params.storeId}/billboards`,
+      label: 'Billboards',
+      active: pathname === `/${params.storeId}/billboards`,
+    },
+    {
+      href: `/${params.storeId}/categories`,
+      label: 'Categories',
+      active: pathname === `/${params.storeId}/categories`,
+    },
+    {
+      href: `/${params.storeId}/sizes`,
+      label: 'Sizes',
+      active: pathname === `/${params.storeId}/sizes`,
+    },
+    {
+      href: `/${params.storeId}/colors`,
+      label: 'Colors',
+      active: pathname === `/${params.storeId}/colors`,
+    },
+    {
+      href: `/${params.storeId}/products`,
+      label: 'Products',
+      active: pathname === `/${params.storeId}/products`,
+    },
+    {
+      href: `/${params.storeId}/orders`,
+      label: 'Orders',
+      active: pathname === `/${params.storeId}/orders`,
+    },
+    {
+      href: `/${params.storeId}/settings`,
+      label: 'Settings',
+      active: pathname === `/${params.storeId}/settings`,
+    },
+  ]
 
   return (
-    <>
-      <nav className="mx-6 hidden items-center gap-6 lg:flex">
-        {routes.map((route) => (
-          <Link
-            key={route.href}
-            href={route.href}
-            className={cn(
-              'text-sm font-medium transition-colors hover:text-primary',
-              route.active
-                ? 'text-black dark:text-white'
-                : 'text-muted-foreground',
-            )}
-          >
-            {route.label}
-          </Link>
-        ))}
-      </nav>
-      <div className="mx-6 hidden sm:block lg:hidden">
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="w-56 justify-between border bg-transparent">
-                {active?.label}
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-56 bg-white py-2 dark:bg-slate-900">
-                  {routes.map((route) => (
-                    <ListItem
-                      className="mx-1 flex items-center p-2 hover:rounded-sm hover:bg-slate-800"
-                      key={route.href}
-                      title={route.label}
-                      href={route.href}
-                    >
-                      <Check
-                        className={cn(
-                          'ml-auto h-4 w-4',
-                          active?.label === route.label
-                            ? 'opacity-100'
-                            : 'opacity-0',
-                        )}
-                      />
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
-    </>
-  );
-}
+    <nav
+      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+      {...props}
+    >
+      {routes.map((route) => (
+        <Link
+          key={route.href}
+          href={route.href}
+          className={cn(
+            'text-sm font-medium transition-colors hover:text-primary',
+            route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
+          )}
+        >
+          {route.label}
+      </Link>
+      ))}
+    </nav>
+  )
+};

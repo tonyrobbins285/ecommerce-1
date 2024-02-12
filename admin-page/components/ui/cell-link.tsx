@@ -10,7 +10,7 @@ type CellLinkProps = {
   name: string;
 };
 
-export default function CellLink<T>({ section, id, name }: CellLinkProps) {
+export default function CellLink({ section, id, name }: CellLinkProps) {
   const params = useParams();
 
   return <Link href={`/${params.storeId}/${section}/${id}`}>{name}</Link>;

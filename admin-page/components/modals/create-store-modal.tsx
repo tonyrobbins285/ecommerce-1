@@ -1,16 +1,14 @@
 'use client';
-import { useState } from 'react';
 
 import * as z from 'zod';
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreateStoreModalStore } from '@/store/zustand';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { useState } from 'react';
 
-import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/ui/modal';
-import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -19,39 +17,41 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { useStoreModal } from '@/hooks/use-store-modal';
+import { Button } from '@/components/ui/button';
 
-const storeSchema = z.object({
+const formSchema = z.object({
   name: z.string().min(4),
 });
 
-export default function CreateStoreModal() {
-  const { isOpen, onClose } = useCreateStoreModalStore();
+export const CreateStoreModal = () => {
+  const { isOpen, onClose } = useStoreModal();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof storeSchema>>({
-    resolver: zodResolver(storeSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof storeSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true);
-      const res = await axios.post('/api/stores', values);
-      window.location.assign(`/${res.data.id}`);
+      setLoading(true);
+      const response = await axios.post('/api/stores', values);
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
-      toast.error('Something went wrong!');
+      toast.error('Something went wrong');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
     <Modal
       title="Create store"
-      description="Add new store to manage products and categories"
+      description="Add a new store to manage products and categories."
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -66,8 +66,8 @@ export default function CreateStoreModal() {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      className="dark:bg-slate-900"
-                      disabled={isLoading}
+                      className="dark:bg-slate-900 bg-white"
+                      disabled={loading}
                       placeholder="E-Commerce"
                       {...field}
                     />
@@ -76,13 +76,13 @@ export default function CreateStoreModal() {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end space-x-2">
-              <Button disabled={isLoading} variant="ghost" onClick={onClose}>
+            <div className="flex justify-end gap-2">
+              <Button disabled={loading} variant="ghost" onClick={onClose}>
                 Cancel
               </Button>
               <Button
-                disabled={isLoading}
-                className="bg-slate-700 dark:bg-white"
+                disabled={loading}
+                className="bg-slate-900 dark:bg-white"
                 type="submit"
               >
                 Submit
@@ -93,4 +93,4 @@ export default function CreateStoreModal() {
       </div>
     </Modal>
   );
-}
+};

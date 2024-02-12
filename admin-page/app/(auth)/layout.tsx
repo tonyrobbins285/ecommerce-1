@@ -1,20 +1,11 @@
-import { ThemeToggle } from '@/components/theme-toggle';
-
 export default function AuthLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
-      <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
-        <div className="relative w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md">
-          <div className="absolute right-2 top-0">
-            <ThemeToggle />
-          </div>
-          {children}
-        </div>
-      </div>
+    <div className="flex items-center justify-center h-full w-full">
+      {children}
     </div>
   );
-}
+};

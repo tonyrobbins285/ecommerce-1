@@ -1,32 +1,33 @@
 'use client';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+
+import { useEffect, useState } from 'react';
 
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
 
-type AlertModalProps = {
+interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   isLoading: boolean;
-};
+}
 
-export function AlertModal({
+export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
   isLoading,
-}: AlertModalProps) {
+}) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <Modal
       title="Are you sure?"
@@ -44,4 +45,4 @@ export function AlertModal({
       </div>
     </Modal>
   );
-}
+};
