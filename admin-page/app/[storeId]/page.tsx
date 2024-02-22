@@ -11,11 +11,20 @@ import { getStockCount } from '@/actions/get-stock-count';
 import { currencyFormatter } from '@/lib/utils';
 import Container from '@/components/ui/container';
 import Wrapper from '@/components/ui/wrapper';
+import { Store } from '@prisma/client';
+import prismadb from '@/lib/prismadb';
 
 interface DashboardPageProps {
   params: {
     storeId: string;
   };
+}
+
+export async function generateStaticParams() {
+  const stores = await prismadb.store.findMany();
+  return stores.map((store: Store) => ({
+    storeId: store.id,
+  }));
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {

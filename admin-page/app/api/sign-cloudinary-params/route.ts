@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
+import { NextResponse } from 'next/server';
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -15,5 +16,5 @@ export async function POST(request: Request) {
     process.env.CLOUDINARY_API_SECRET!,
   );
 
-  return Response.json({ signature });
+  return NextResponse.json({ signature });
 }

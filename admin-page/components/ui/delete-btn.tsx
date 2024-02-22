@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useParams, useRouter } from 'next/navigation';
+import { redirect, useParams, useRouter } from 'next/navigation';
 
 import { Trash } from 'lucide-react';
 
@@ -25,11 +25,15 @@ export default function DeleteBtn({ section, sectionId }: DeleteBtnType) {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(
-        `/api/${params.storeId}/${section}/${params[sectionId]}`,
-      );
-      router.refresh();
-      router.push(`/${params.storeId}/${section}`);
+      if (section === 'stores') {
+        await axios.delete(`/api/stores/${params.storeId}`);
+        redirect('/');
+      } else {
+        await axios.delete(
+          `/api/${params.storeId}/${section}/${params[sectionId]}`,
+        );
+        router.push(`/${params.storeId}/${section}`);
+      }
       toast.success('Deleted successfully');
     } catch (error) {
       toast.error(

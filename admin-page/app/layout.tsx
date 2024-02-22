@@ -3,9 +3,10 @@ import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
 import { ThemeProvider } from '@/providers/theme-provider';
-import { CreateStoreModal } from '@/components/modals/create-store-modal';
 
 import './globals.css';
+
+import CreateStoreModal from '@/components/modals/create-store-modal';
 
 const inter = Inter({ subsets: ['latin'] });
 
